@@ -3,7 +3,7 @@
 
 This module was written to minimize the need to write the functions I use often.
 
-INSTALL:  ` python3 -m pip3 install jblib `
+INSTALL:  ` python3 -m pip install jblib `
 
 ---
 The source code can be viewed here: [https://github.com/ANamelessDrake/jblib](https://github.com/ANamelessDrake/jblib)
