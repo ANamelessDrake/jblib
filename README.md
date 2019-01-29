@@ -1,7 +1,9 @@
 # jblib
 ## Author: Justin Bard
 
-This module was written to minimize the need to write the functions I use often. 
+This module was written to minimize the need to write the functions I use often.
+
+INSTALL:  ` python3 -m pip3 install jblib `
 
 ---
 The source code can be viewed here: [https://github.com/ANamelessDrake/jblib](https://github.com/ANamelessDrake/jblib)
