@@ -4,7 +4,7 @@
 # 01/28/2018 jbard v1.6 Refactored Codebase for pypi upload
 #
 
-version = "1.6"
+version = "1.6.2"
 import os
 
 class cd:
@@ -30,7 +30,7 @@ class cd:
 
 class hilight:
     """
-        class hilight(string).color(higlight=True, bold=True)
+        class hilight(string).color(highlight=True, bold=True)
 
         Example:
             print (hilight("Hello World").red(bold=True))

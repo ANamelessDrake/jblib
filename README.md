@@ -22,7 +22,7 @@ class cd()
 ```
 ---
 ```
-class hilight(string).color(higlight=True, bold=True)
+class hilight(string).color(highlight=True, bold=True)
 
     Example:
         print (hilight("Hello World").red(bold=True))
