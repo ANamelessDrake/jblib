@@ -1,15 +1,9 @@
-######################################################################################
-#
-# 09/03/2014 jbard v1.2 Added hilight to green, yellow, blue, purple, teal, and white
-# 01/28/2018 jbard v1.6 Refactored Codebase for pypi upload
-#
-
-version = "1.6.2"
 import os
 
 class cd:
-    """ Context manager for changing the current working directory """
-    """ 
+    """
+        Context manager for changing the current working directory 
+        
         class cd()
 
         Example: 
@@ -19,7 +13,7 @@ class cd:
             print (os.getcwd()) ## Moves you back to the originating directory on exit
     """
     def __init__(self, newPath):
-        self.newPath = newPath
+        self.newPath = newPath   
 
     def __enter__(self):
         self.savedPath = os.getcwd()
