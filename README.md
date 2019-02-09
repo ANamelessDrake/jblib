@@ -11,7 +11,7 @@ The source code can be viewed here: [https://github.com/ANamelessDrake/jblib](ht
 More of my projects can be found here: [http://justbard/com](http://justbard.com)
 
 ---
-` import jblib `
+` from jblib import cd `
 ```
     class cd()
             
@@ -22,6 +22,8 @@ More of my projects can be found here: [http://justbard/com](http://justbard.com
             print (os.getcwd()) ## Back at the originating directory on exit
 ```
 
+---
+` from jblib import hilight `
 ```
     class hilight(string).color(highlight=True, bold=True)
 
@@ -45,8 +47,9 @@ More of my projects can be found here: [http://justbard/com](http://justbard.com
             teal
             white
 ```
+
 ---
-` import convert_module `
+` from jblib import convert_module `
 ```
     Module to convert various data
             
@@ -63,4 +66,38 @@ More of my projects can be found here: [http://justbard/com](http://justbard.com
                 Wrapper for urllib.parse.quote and urllib.parse.unquote.
                 From urllib docs - Replace special characters in string using the %xx escape. Letters, digits, and the characters '_.-' are never quoted. By default, this function is intended for quoting the path section of URL. 
                 - https://docs.python.org/3.1/library/urllib.parse.html?highlight=urllib#urllib.parse.quote
+```
+
+---
+` from jblib import HTMLgen `
+```
+        FUNCTIONS:
+            class HTMLgen(head=False, tail=False, lang="en", docType="html").tag()
+
+        EXAMPLE:
+            page = HTMLgen(True, True)
+            page.title("This is the page Title", scripts="foo.js bar.js", css="styles.css nav.css")
+            page.body.add(page.tag("h1", "This is a header 1 line"))
+            page.body.add("This is another line")
+
+            page.return_html()
+
+            ```
+                <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                        <title>This is the page Title</title>
+                        <link rel="stylesheet" href="styles.css">
+                        <link rel="stylesheet" href="nav.css">
+                        <script src="foo.js"></script>
+                        <script src="bar.js"></script>
+                    </head>
+                <body>
+                    <h1>This is a header 1 line</h1>
+
+                    This is another line
+                </body>
+                </html>
+            ```
+
 ```
