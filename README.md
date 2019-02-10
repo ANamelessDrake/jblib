@@ -78,7 +78,7 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
 
         FUNCTIONS:
             title(self, title, scripts=None, css=None)
-            body.add(content)
+            body.add(content) ## <-- Add's new content as a new line with each call. Can also be used with a huge block of content with embedded newlines (i.e. \n)
             tag(tag, content=False, close=True, cssclass=None)
             image(src, alt=None, srcset=None, height=None, width=None, style=None, cssclass=None)
             div(cssclass)
