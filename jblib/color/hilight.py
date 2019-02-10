@@ -2,7 +2,7 @@ class hilight:
     """
         class hilight(string).color(highlight=True, bold=True)
 
-        Example:
+        EXAMPLE:
             print (hilight("Hello World").red(bold=True))
 
             Or you could make an object:
@@ -13,7 +13,7 @@ class hilight:
             To return the original string:
                 print (text.string)
         
-        Available Colors:
+        COLORS:
             red
             green
             yellow
