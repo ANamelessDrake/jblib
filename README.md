@@ -71,20 +71,31 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
 ---
 ` from jblib import HTMLgen `
 ```
+        Basic HTML generator
+        02/09/2019
+
+        class HTMLgen(head=False, tail=False, lang="en", docType="html")
+
         FUNCTIONS:
-            class HTMLgen(head=False, tail=False, lang="en", docType="html").tag()
+            title(self, title, scripts=None, css=None)
+            body.add(content)
+            tag(tag, content=False, close=True, cssclass=None)
+            image(src, alt=None, srcset=None, height=None, width=None, style=None, cssclass=None)
+            div(cssclass)
 
         EXAMPLE:
             page = HTMLgen(True, True)
             page.title("This is the page Title", scripts="foo.js bar.js", css="styles.css nav.css")
-            page.body.add(page.tag("h1", "This is a header 1 line"))
+            page.body.add(HTMLgen.image("images/frontpage.jpg", width="100%"))
+            page.body.add(HTMLgen.tag("h1", "This is a header line"))
             page.body.add("This is another line")
+
 
             page.return_html()
 
             ```
                 <!DOCTYPE html>
-                <html lang="en">
+                <html lang="en>
                     <head>
                         <title>This is the page Title</title>
                         <link rel="stylesheet" href="styles.css">
@@ -93,8 +104,8 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
                         <script src="bar.js"></script>
                     </head>
                 <body>
-                    <h1>This is a header 1 line</h1>
-
+                    <img src="images/frontpage.jpg" width="100%">
+                    <h1>This is a header line</h1>
                     This is another line
                 </body>
                 </html>
