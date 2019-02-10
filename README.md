@@ -8,7 +8,7 @@ INSTALL:  ` python3 -m pip install jblib `
 ---
 The source code can be viewed here: [https://github.com/ANamelessDrake/jblib](https://github.com/ANamelessDrake/jblib)
 
-More of my projects can be found here: [http://justbard/com](http://justbard.com)
+More of my projects can be found here: [http://justbard.com](http://justbard.com)
 
 ---
 ` from jblib import cd `
