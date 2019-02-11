@@ -96,7 +96,7 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
 
             ```
                 <!DOCTYPE html>
-                <html lang="en>
+                <html lang="en">
                     <head>
                         <title>This is the page Title</title>
                         <link rel="stylesheet" href="styles.css">
