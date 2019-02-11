@@ -8,10 +8,10 @@
 			Converts seconds into minutes/hours. 
 		
 		def IP2Int(ip)
-			Converts a IPv4 address to a interger - This is useful to store IP addresses in databases
+			Converts an IPv4 address to a interger - This is useful to store IP addresses in databases
 		
 		def Int2IP(ipnum)
-			Converts a interger back to an IPv4 address
+			Converts an interger back to an IPv4 address
 
 		def urlcode(url, encode=False)
 			Wrapper for urllib.parse.quote and urllib.parse.unquote.
