@@ -10,7 +10,8 @@ class HTMLgen:
             body.add(content)
             tag(tag, content=False, close=True, cssclass=None)
             image(src, alt=None, srcset=None, height=None, width=None, style=None, cssclass=None)
-            div(cssclass)
+            br() <-- Returns a </ br> tag
+            div(cssclass) <-- Not yet implemented 
 
         EXAMPLE:
             page = HTMLgen(True, True)
@@ -50,7 +51,7 @@ class HTMLgen:
 
         if self.head:
             self.page["head"] = "<!DOCTYPE "+docType+">\n"
-            self.page["head"] = self.page["head"]+"<html lang=\""+lang+">\n"
+            self.page["head"] = self.page["head"]+"<html lang=\""+lang+"\">\n"
 
         if self.tail:
             self.page["tail"] = '</html>'
@@ -58,6 +59,7 @@ class HTMLgen:
 
     def __exit__(self, exception_type, exception_value, traceback):
         return_html(self)
+
 
     def title(self, title, scripts=None, css=None):
         output = "\t<head>\n"
@@ -81,11 +83,12 @@ class HTMLgen:
 
         self.page["header"] = output
 
+
     def tag(tag, content=False, close=True, cssclass=None):
         output = "<"+tag
         if cssclass:
             output = output+" class=\""+cssclass+'">'
-        else: 
+        else:
             output = output+">"
 
         if content:
@@ -94,6 +97,10 @@ class HTMLgen:
             output = output+"</"+tag+">"
 
         return output
+
+
+    def br():
+        return "</ br>"
 
 
     def createBody(self):
@@ -106,6 +113,32 @@ class HTMLgen:
             self.content = []
 
         def add(self, content):
+            n = 25
+            strings = content.split(' ')
+            if len(strings) > n:
+                count = 0
+                new_content_count = 0
+                new_content = []
+                content = ""
+                for string in strings:
+                    if count <= n:
+                        count += 1
+                    else: 
+                        count = 0
+                        new_content_count += 1
+
+                    try:
+                        new_content[new_content_count] = new_content[new_content_count] + " " + string
+                    except IndexError:
+                        new_content.append(string)
+
+                for string in new_content:
+                    content = content + "\t" + string + "\n"
+            
+            else:
+                content = "\t"+content
+
+
             self.content.append(content)
 
     
@@ -147,7 +180,7 @@ class HTMLgen:
         if self.body.content:
             output = output + HTMLgen.tag(tag="body", close=False) + "\n"
             for i in self.body.content:
-                output = output + "\t" + i + "\n"
+                output = output + i + "\n"
             output = output + HTMLgen.tag(tag="/body", close=False) + "\n"
         if "tail" in self.page:
             output = output + self.page["tail"]
