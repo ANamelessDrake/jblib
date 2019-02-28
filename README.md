@@ -112,3 +112,37 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
                 </html>
             ```
 ```
+
+` from jblib import progress_bar `
+```
+    Progress Bar
+    02/25/2019
+    
+    FUNCTIONS:
+        progress_bar(progress, barLength=50, text_field="Progress")
+
+    EXAMPLE:
+        counter = 0
+        for i in range(100):
+            counter += 1
+            i = counter/100
+            progress_bar(i, 50)
+            sleep(0.1)
+
+    Progress: [#########################-------------------------] 50.0%
+```
+
+` from jblib import build_date_array `
+
+```
+    Build Date Arrays
+    02/27/2019
+    
+    FUNCTIONS:
+        build_date_array(days=1, start_date=str(datetime.date.today()), date_format='%Y-%m-%d', mon=True, tues=True, wed=True, thur=True, fri=True, sat=True, sun=True, weekend=True):
+
+    EXAMPLE:
+        dates = build_date_array(days=7, weekend=False)
+        dates
+            ['2019-02-27', '2019-02-28', '2019-03-01', '2019-03-02', '2019-03-03', '2019-03-05', '2019-03-06']
+```
