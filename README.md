@@ -83,6 +83,10 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
             image(src, alt=None, srcset=None, height=None, width=None, style=None, cssclass=None)
             br() <-- Returns a </ br> tag
             div(cssclass) <-- Not yet implemented 
+        
+        TODO: 
+            Add a Table Class to allow dynamically built tables (cols and rows to be programmatically built)
+            Add a Div Builder
 
         EXAMPLE:
             page = HTMLgen(True, True)
@@ -137,7 +141,7 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
 ```
     Build Date Arrays
     02/27/2019
-    
+
     FUNCTIONS:
         build_date_array(days=1, start_date=str(datetime.date.today()), date_format='%Y-%m-%d', mon=True, tues=True, wed=True, thur=True, fri=True, sat=True, sun=True, weekend=True):
 
@@ -146,3 +150,30 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
         dates
             ['2019-02-27', '2019-02-28', '2019-03-01', '2019-03-02', '2019-03-03', '2019-03-05', '2019-03-06']
 ```
+
+` from jblib import mean_deviation `
+
+'''
+    DESCRIPTION:
+        This function takes a Pandas DataFrame column in and then returns a series of calculated mean deviations
+
+    FUNCTION:
+        mean_deviation(data, mean=None)
+
+    EXAMPLE:
+        data["MeanDeviation"] = pd.Series(mean_deviation(data['column']), index=data.index)
+'''
+
+
+` from jblib import standard_deviation `
+
+'''
+    DESCRIPTION:
+        This function takes a Pandas DataFrame column in and then returns the calculated standard deviation
+
+    FUNCTION:
+        standard_deviation(data, mean=None)
+
+    EXAMPLE:
+        standard_dev = standard_deviation(data['column'])
+'''
