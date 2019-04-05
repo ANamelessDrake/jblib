@@ -177,3 +177,35 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
     EXAMPLE:
         standard_dev = standard_deviation(data['column'])
 '''
+
+` from jblib import StreamToLogger `
+
+```
+    DESCRIPTION:
+        Fake file-like stream object that redirects writes to a logger instance.
+        
+    CLASS:
+        StreamToLogger(object)
+    EXAMPLE:
+        if log_enabled: ## If true, all standard output and standard error to the console will be disabled
+            # create logger
+            logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%Y%m%d %H:%M:%S', filename=log_file)
+            logger = logging.getLogger(__name__)
+            logger.setLevel(logging.DEBUG)
+
+            logger.propagate = False
+            fh = logging.FileHandler(log_file, "a")
+            fh.setLevel(logging.DEBUG)
+            formatter = logging.Formatter(fmt='%(asctime)s - %(message)s', datefmt='%Y%m%d %H:%M:%S')
+            fh.setFormatter(formatter)
+            logger.addHandler(fh)
+            keep_fds = [fh.stream.fileno()]
+
+            stdout_logger = logging.getLogger('STDOUT')
+            sl = StreamToLogger(stdout_logger, logging.INFO)
+            sys.stdout = sl
+
+            stderr_logger = logging.getLogger('STDERR')
+            sle = StreamToLogger(stderr_logger, logging.ERROR)
+            sys.stderr = sle
+```
