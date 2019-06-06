@@ -12,13 +12,24 @@ class HTMLgen:
             image(src, alt=None, srcset=None, height=None, width=None, style=None, cssclass=None)
             br() <-- Returns a </ br> tag
             div(cssclass) <-- Not yet implemented 
+            table() -- Class Object
+                table.add_row()
+                table.produce_table()
 
         EXAMPLE:
             page = HTMLgen(True, True)
             page.title("This is the page Title", scripts="foo.js bar.js", css="styles.css nav.css")
-            page.body.add(HTMLgen.image("images/frontpage.jpg", width="100%"))
-            page.body.add(HTMLgen.tag("h1", "This is a header line"))
+            page.body.add(page.image("images/frontpage.jpg", width="100%"))
+            page.body.add(page.tag("h1", "This is a header line"))
             page.body.add("This is another line")
+
+            ## Creating a table
+            test_table = HTMLgen.table()
+            test_table.add_row(["column data 1", "column data 2", "column data 3"])
+            test_table.add_row(["column data 4", "column data 5", "column data 6"])
+
+            ## And finally we add the table to the rest of the page
+            page.body.add(test_table.produce_table())
 
 
             page.return_html()
@@ -37,6 +48,16 @@ class HTMLgen:
                     <img src="images/frontpage.jpg" width="100%">
                     <h1>This is a header line</h1>
                     This is another line
+                   	<table>
+                        <tr>
+                            <td>column data 1</td><td>column data 2</td><td>column data 3</td>
+                        </tr>
+                        <tr>
+                            <td>column data 4</td><td>column data 5</td><td>column data 6</td>
+                        </tr>
+
+                    </table>
+
                 </body>
                 </html>
             ```
@@ -58,7 +79,7 @@ class HTMLgen:
 
 
     def __exit__(self, exception_type, exception_value, traceback):
-        return_html(self)
+        self.return_html(self)
 
 
     def title(self, title, scripts=None, css=None):
@@ -84,7 +105,7 @@ class HTMLgen:
         self.page["header"] = output
 
 
-    def tag(tag, content=False, close=True, cssclass=None):
+    def tag(self, tag, content=False, close=True, cssclass=None):
         output = "<"+tag
         if cssclass:
             output = output+" class=\""+cssclass+'">'
@@ -99,7 +120,7 @@ class HTMLgen:
         return output
 
 
-    def br():
+    def br(self):
         return "</ br>"
 
 
@@ -141,12 +162,38 @@ class HTMLgen:
 
             self.content.append(content)
 
+
+    class table:
+        def __init__(self):
+            self.rows = []
+
+        def add_row(self, data):
+            """
+                Row data should be a list of data
+            """
+            #data = data + "\n"
+            self.rows.append(data)
+
+        def produce_table(self):
+            table_output = "<table>\n"
+            for row in self.rows:
+                table_output = table_output+"\t\t<tr>\n\t\t\t"
+                for column_data in row:
+                    table_output = table_output+"<td>"+column_data+"</td>"
+                
+                table_output = table_output+"\n"
+                table_output = table_output+"\t\t</tr>\n"
+
+            table_output = table_output+"\n\t</table>"
+
+            return table_output
+
     
-    def image(src, alt=None, srcset=None, height=None, width=None, style=None, cssclass=None):
+    def image(self, src, alt=None, srcset=None, height=None, width=None, style=None, cssclass=None):
         if src:
             image = '<img src="'+src+'"'
         else:
-            return Null
+            return False
 
         if alt:
             image = image + ' alt="'+alt+'"'
@@ -178,10 +225,10 @@ class HTMLgen:
         if "header" in self.page:
             output = output + self.page["header"]
         if self.body.content:
-            output = output + HTMLgen.tag(tag="body", close=False) + "\n"
+            output = output + "<body>\n"
             for i in self.body.content:
                 output = output + i + "\n"
-            output = output + HTMLgen.tag(tag="/body", close=False) + "\n"
+            output = output + "</body>\n"
         if "tail" in self.page:
             output = output + self.page["tail"]
 

@@ -83,24 +83,31 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
             image(src, alt=None, srcset=None, height=None, width=None, style=None, cssclass=None)
             br() <-- Returns a </ br> tag
             div(cssclass) <-- Not yet implemented 
-        
-        TODO: 
-            Add a Table Class to allow dynamically built tables (cols and rows to be programmatically built)
-            Add a Div Builder
+            table() -- Class Object
+                table.add_row()
+                table.produce_table()
 
         EXAMPLE:
             page = HTMLgen(True, True)
             page.title("This is the page Title", scripts="foo.js bar.js", css="styles.css nav.css")
-            page.body.add(HTMLgen.image("images/frontpage.jpg", width="100%"))
-            page.body.add(HTMLgen.tag("h1", "This is a header line"))
+            page.body.add(page.image("images/frontpage.jpg", width="100%"))
+            page.body.add(page.tag("h1", "This is a header line"))
             page.body.add("This is another line")
+
+            ## Creating a table
+            test_table = HTMLgen.table()
+            test_table.add_row(["column data 1", "column data 2", "column data 3"])
+            test_table.add_row(["column data 4", "column data 5", "column data 6"])
+
+            ## And finally we add the table to the rest of the page
+            page.body.add(test_table.produce_table())
 
 
             page.return_html()
 
             ```
                 <!DOCTYPE html>
-                <html lang="en">
+                <html lang="en>
                     <head>
                         <title>This is the page Title</title>
                         <link rel="stylesheet" href="styles.css">
@@ -112,6 +119,16 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
                     <img src="images/frontpage.jpg" width="100%">
                     <h1>This is a header line</h1>
                     This is another line
+                   	<table>
+                        <tr>
+                            <td>column data 1</td><td>column data 2</td><td>column data 3</td>
+                        </tr>
+                        <tr>
+                            <td>column data 4</td><td>column data 5</td><td>column data 6</td>
+                        </tr>
+
+                    </table>
+
                 </body>
                 </html>
             ```
