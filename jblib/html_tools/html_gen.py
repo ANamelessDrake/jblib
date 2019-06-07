@@ -179,7 +179,7 @@ class HTMLgen:
             for row in self.rows:
                 table_output = table_output+"\t\t<tr>\n\t\t\t"
                 for column_data in row:
-                    table_output = table_output+"<td>"+column_data+"</td>"
+                    table_output = table_output+"<td>"+str(column_data)+"</td>"
                 
                 table_output = table_output+"\n"
                 table_output = table_output+"\t\t</tr>\n"
