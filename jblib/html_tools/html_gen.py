@@ -164,22 +164,49 @@ class HTMLgen:
 
 
     class table:
-        def __init__(self):
+        def __init__(self, border=None, cellpadding=None):
             self.rows = []
+            self.border = border
+            self.cellpadding = cellpadding
 
         def add_row(self, data):
             """
                 Row data should be a list of data
+                EXAMPLE:
+                    table.add_row(["col 1", "col 2"])
+
+                    To add colspan:
+                    table.add_row(["colspan:2_col3"])
+
+                    to add colspan and align text:
+                    table.add_row(["colspan:2 align=center_col3])
             """
             #data = data + "\n"
             self.rows.append(data)
 
         def produce_table(self):
-            table_output = "<table>\n"
+            table_output = "<table"
+            if self.border:
+                table_output = table_output+" border={}".format(self.border)
+
+            if self.cellpadding:
+                table_output = table_output+" cellpadding={}".format(self.cellpadding)
+
+            table_output = table_output+">\n"
+
             for row in self.rows:
                 table_output = table_output+"\t\t<tr>\n\t\t\t"
                 for column_data in row:
-                    table_output = table_output+"<td>"+str(column_data)+"</td>"
+                    colspan_value = None
+                    if "colspan:" in column_data:
+                        colspan_value = str(column_data).split('_')[0]
+                        column_data = str(column_data).split('_')[1]
+                        colspan_value = colspan_value.split(':')[1]
+
+                    if colspan_value:
+                        table_output = table_output+"<td colspan={}>{}</td>".format(colspan_value, column_data)
+                    else:
+                        table_output = table_output+"<td>"+str(column_data)+"</td>"
                 
                 table_output = table_output+"\n"
                 table_output = table_output+"\t\t</tr>\n"
