@@ -21,6 +21,10 @@ class hilight:
             purple
             teal
             white
+
+        FUN FACTS:
+            * This class is loosely based off the very first bit of python code I ever wrote. It was initially created while teaching myself python. 
+            * This module was intentionally misspelled to shorten the keystrokes needed during use. 
     """
     def __init__(self, string):
         self.string = string

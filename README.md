@@ -11,6 +11,7 @@ The source code can be viewed here: [https://github.com/ANamelessDrake/jblib](ht
 More of my projects can be found here: [http://justbard.com](http://justbard.com)
 
 ---
+
 ` from jblib import cd `
 ```
     class cd()
@@ -27,25 +28,29 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
 ```
     class hilight(string).color(highlight=True, bold=True)
 
-        Example:
-            print (hilight("Hello World").red(bold=True))
+    EXAMPLE:
+        print (hilight("Hello World").red(bold=True))
 
-            Or you could make an object:
-                text = hilight("Bar")
+        Or you could make an object:
+            text = hilight("Bar")
 
-                print ("Foo "+text.blue())
+            print ("Foo "+text.blue())
 
-            To return the original string:
-                print (text.string)
-        
-        Available Colors:
-            red
-            green
-            yellow
-            blue
-            purple
-            teal
-            white
+        To return the original string:
+            print (text.string)
+    
+    COLORS:
+        red
+        green
+        yellow
+        blue
+        purple
+        teal
+        white
+
+    FUN FACTS:
+        * This class is loosely based off the very first bit of python code I ever wrote. It was initially created while teaching myself python. 
+        * This module was intentionally misspelled to shorten the keystrokes needed during use. 
 ```
 
 ---
@@ -134,6 +139,7 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
             ```
 ```
 
+---
 ` from jblib import progress_bar `
 ```
     Progress Bar
@@ -153,50 +159,8 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
     Progress: [#########################-------------------------] 50.0%
 ```
 
-` from jblib import build_date_array `
-
-```
-    Build Date Arrays
-    02/27/2019
-
-    FUNCTIONS:
-        build_date_array(days=1, start_date=str(datetime.date.today()), date_format='%Y-%m-%d', mon=True, tues=True, wed=True, thur=True, fri=True, sat=True, sun=True, weekend=True):
-
-    EXAMPLE:
-        dates = build_date_array(days=7, weekend=False)
-        dates
-            ['2019-02-27', '2019-02-28', '2019-03-01', '2019-03-02', '2019-03-03', '2019-03-05', '2019-03-06']
-```
-
-` from jblib import mean_deviation `
-
-'''
-    DESCRIPTION:
-        This function takes a Pandas DataFrame column in and then returns a series of calculated mean deviations
-
-    FUNCTION:
-        mean_deviation(data, mean=None)
-
-    EXAMPLE:
-        data["MeanDeviation"] = pd.Series(mean_deviation(data['column']), index=data.index)
-'''
-
-
-` from jblib import standard_deviation `
-
-'''
-    DESCRIPTION:
-        This function takes a Pandas DataFrame column in and then returns the calculated standard deviation
-
-    FUNCTION:
-        standard_deviation(data, mean=None)
-
-    EXAMPLE:
-        standard_dev = standard_deviation(data['column'])
-'''
-
+---
 ` from jblib import StreamToLogger `
-
 ```
     DESCRIPTION:
         Fake file-like stream object that redirects writes to a logger instance.
@@ -225,4 +189,18 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
             stderr_logger = logging.getLogger('STDERR')
             sle = StreamToLogger(stderr_logger, logging.ERROR)
             sys.stderr = sle
+```
+---
+` from jblib import build_date_array `
+```
+    Build Date Arrays
+    02/27/2019
+
+    FUNCTIONS:
+        build_date_array(days=1, start_date=str(datetime.date.today()), date_format='%Y-%m-%d', mon=True, tues=True, wed=True, thur=True, fri=True, sat=True, sun=True, weekend=True):
+
+    EXAMPLE:
+        dates = build_date_array(days=7, weekend=False)
+        dates
+            ['2019-02-27', '2019-02-28', '2019-03-01', '2019-03-02', '2019-03-03', '2019-03-05', '2019-03-06']
 ```
