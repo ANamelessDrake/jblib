@@ -16,7 +16,7 @@ def progress_bar(progress, barLength=50, text_field="Progress"):
         progress = 1
         status = "Done...\r\n"
     block = int(round(barLength*progress))
-    text = "\r{3}: [{0}] {1}%  {2}".format( "#"*block + "-"*(barLength-block), progress*100, status, text_field)
+    text = "\r{3}: [{0}] {1}%  {2}".format( "#"*block + "-"*(barLength-block), round(progress*100), status, text_field)
     print(text, end='\r')
     #sys.stdout.write(text)
     #sys.stdout.flush()
