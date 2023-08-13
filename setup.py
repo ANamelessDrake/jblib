@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(name='jblib',
-                version='1.6.55',
+                version='1.7',
                 description='JustBard\'s Python Utilities',
                 long_description=long_description,
                 long_description_content_type="text/markdown",

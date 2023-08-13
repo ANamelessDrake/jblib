@@ -2,6 +2,9 @@ class hilight:
     """
         class hilight(string).color(highlight=True, bold=True)
 
+        WARNING:
+            This version no longer works as of Python v3.9. Use hilightV2 instead
+
         EXAMPLE:
             print (hilight("Hello World").red(bold=True))
 
@@ -134,3 +137,79 @@ class hilight:
 
         return '\x1b[%sm%s\x1b[0m' % (';'.join(attr), self.string)
 
+class hilightV2:
+    """
+    A class for creating colored and formatted terminal output.
+
+    Example:
+        print(hilightV2("Hello World").red(bold=True))
+
+        Or you could make an object:
+            text = hilightV2("Bar")
+            print("Foo " + text.blue())
+
+        To return the original string:
+            print(text.get_text())
+
+    Colors:
+        - red
+        - green
+        - yellow
+        - blue
+        - purple
+        - teal
+        - white
+
+    Fun Facts:
+        - This class is loosely based on Python code I wrote while learning the language.
+        - The module name is intentionally misspelled to shorten keystrokes.
+    """
+
+    def __init__(self, text):
+        """
+        Initialize the hilightV2 object with the input text.
+        """
+        self._text = text
+
+    def _apply_format(self, color_code, bold):
+        """
+        Apply formatting using ANSI escape codes.
+        """
+        attr = [color_code]
+
+        if bold:
+            attr.append('1')
+
+        return '\x1b[%sm%s\x1b[0m' % (';'.join(attr), self._text)
+
+    def red(self, bold=False):
+        """Format the text with red color."""
+        return self._apply_format('31', bold)
+
+    def green(self, bold=False):
+        """Format the text with green color."""
+        return self._apply_format('32', bold)
+
+    def yellow(self, bold=False):
+        """Format the text with yellow color."""
+        return self._apply_format('33', bold)
+
+    def blue(self, bold=False):
+        """Format the text with blue color."""
+        return self._apply_format('34', bold)
+
+    def purple(self, bold=False):
+        """Format the text with purple color."""
+        return self._apply_format('35', bold)
+
+    def teal(self, bold=False):
+        """Format the text with teal color."""
+        return self._apply_format('36', bold)
+
+    def white(self, bold=False):
+        """Format the text with white color."""
+        return self._apply_format('37', bold)
+
+    def get_text(self):
+        """Return the original text."""
+        return self._text

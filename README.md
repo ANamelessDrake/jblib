@@ -1,30 +1,37 @@
 # jblib
+
 ## Author: Justin Bard
 
 This module was written to minimize the need to write the functions I use often.
 
-INSTALL:  ` python3 -m pip install jblib `
+INSTALL: `python3 -m pip install jblib`
 
 ---
+
 The source code can be viewed here: [https://github.com/ANamelessDrake/jblib](https://github.com/ANamelessDrake/jblib)
 
 More of my projects can be found here: [http://justbard.com](http://justbard.com)
 
 ---
 
-` from jblib import cd `
+`from jblib import cd`
+
 ```
     class cd()
-            
-        Example: 
+
+        Example:
             with cd(directory):
-                print (os.getcwd()) 
+                print (os.getcwd())
 
             print (os.getcwd()) ## Back at the originating directory on exit
 ```
 
 ---
-` from jblib import hilight `
+
+Python 3.8 or earlier: `from jblib import hilight`
+
+Python 3.9 or later: `from jblib import hilightV2`
+
 ```
     class hilight(string).color(highlight=True, bold=True)
 
@@ -38,7 +45,7 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
 
         To return the original string:
             print (text.string)
-    
+
     COLORS:
         red
         green
@@ -49,33 +56,37 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
         white
 
     FUN FACTS:
-        * This class is loosely based off the very first bit of python code I ever wrote. It was initially created while teaching myself python. 
-        * This module was intentionally misspelled to shorten the keystrokes needed during use. 
+        * This class is loosely based off the very first bit of python code I ever wrote. It was initially created while teaching myself python.
+        * This module was intentionally misspelled to shorten the keystrokes needed during use.
 ```
 
 ---
-` from jblib import convert_module `
+
+`from jblib import convert_module`
+
 ```
     Module to convert various data
-            
+
             def convert_time_from_seconds(seconds_given)
-                Converts a seconds into minutes, hours and days. 
-            
+                Converts a seconds into minutes, hours and days.
+
             def IP2Int(ip)
                 Converts a IPv4 address to a interger - This is useful to store IP addresses in databases
-            
+
             def Int2IP(ipnum)
                 Converts a interger back to an IPv4 address
 
             def urlcode(url, encode=False)
                 Wrapper for urllib.parse.quote and urllib.parse.unquote.
-                From urllib docs - Replace special characters in string using the %xx escape. Letters, digits, and the characters '_.-' are never quoted. By default, this function is intended for quoting the path section of URL. 
+                From urllib docs - Replace special characters in string using the %xx escape. Letters, digits, and the characters '_.-' are never quoted. By default, this function is intended for quoting the path section of URL.
                 - https://docs.python.org/3.1/library/urllib.parse.html?highlight=urllib#urllib.parse.quote
 ```
 
 ---
-` from jblib import HTMLgen `
-```
+
+`from jblib import HTMLgen`
+
+````
         Basic HTML generator
         02/09/2019
 
@@ -87,7 +98,7 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
             tag(tag, content=False, close=True, cssclass=None)
             image(src, alt=None, srcset=None, height=None, width=None, style=None, cssclass=None)
             br() <-- Returns a </ br> tag
-            div(cssclass) <-- Not yet implemented 
+            div(cssclass) <-- Not yet implemented
             table() -- Class Object
                 table.add_row()
                 table.produce_table()
@@ -137,14 +148,16 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
                 </body>
                 </html>
             ```
-```
+````
 
 ---
-` from jblib import progress_bar `
+
+`from jblib import progress_bar`
+
 ```
     Progress Bar
     02/25/2019
-    
+
     FUNCTIONS:
         progress_bar(progress, barLength=50, text_field="Progress")
 
@@ -160,11 +173,13 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
 ```
 
 ---
-` from jblib import StreamToLogger `
+
+`from jblib import StreamToLogger`
+
 ```
     DESCRIPTION:
         Fake file-like stream object that redirects writes to a logger instance.
-        
+
     CLASS:
         StreamToLogger(object)
     EXAMPLE:
@@ -190,8 +205,11 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
             sle = StreamToLogger(stderr_logger, logging.ERROR)
             sys.stderr = sle
 ```
+
 ---
-` from jblib import build_date_array `
+
+`from jblib import build_date_array`
+
 ```
     Build Date Arrays
     02/27/2019
