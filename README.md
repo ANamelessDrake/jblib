@@ -172,6 +172,26 @@ Python 3.9 or later: `from jblib import hilightV2`
     Progress: [#########################-------------------------] 50.0%
 ```
 
+`from jblib import colored_progress_bar`
+
+```
+    Colored Progress Bar
+    10/10/2023
+
+    FUNCTIONS:
+        colored_progress_bar(progress, barLength=50, text_field="Progress")
+
+    EXAMPLE:
+        counter = 0
+        for i in range(100):
+            counter += 1
+            i = counter/100
+            colored_progress_bar(i, 50)
+            sleep(0.1)
+
+    Progress: [#########################-------------------------] 50.0%
+```
+
 ---
 
 `from jblib import StreamToLogger`
