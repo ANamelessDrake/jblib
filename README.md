@@ -28,11 +28,75 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
 
 ---
 
-Python 3.8 or earlier: `from jblib import hilight`
-
-Python 3.9 or later: `from jblib import hilightV2`
+`from jblib import Color, BgColor, jbcolor, gradient, rainbow, fade, cycle, pulse`
 
 ```
+    Modern Terminal Color Utilities
+
+    CLASSES:
+        Color   -- Foreground color and text attribute constants for f-string use
+        BgColor -- Background color constants for f-string use
+
+    FUNCTIONS:
+        jbcolor(text, fg=None, bg=None, bold=False, dim=False, italic=False,
+                underline=False, reverse=False, strikethrough=False)
+        gradient(text, start, end, bold=False)
+        rainbow(text, bold=False)
+        fade(text, start, end, bold=False)
+        cycle(text, colors, bold=False)
+        pulse(text, start, end, cycles=3, speed=0.05, steps=20, bold=False)
+
+    AVAILABLE COLORS:
+        Standard:  BLACK, RED, GREEN, YELLOW, BLUE, PURPLE, TEAL, WHITE
+        Bright:    BRIGHT_BLACK, BRIGHT_RED, BRIGHT_GREEN, BRIGHT_YELLOW,
+                   BRIGHT_BLUE, BRIGHT_PURPLE, BRIGHT_TEAL, BRIGHT_WHITE
+        RGB Named: ORANGE
+        Attributes (Color only): BOLD, DIM, ITALIC, UNDERLINE, REVERSE, STRIKETHROUGH
+        Reset: OFF / RESET
+
+    EXAMPLES:
+
+        ## Color constants in f-strings
+        print(f"{Color.RED}red text{Color.OFF}")
+        print(f"{Color.BOLD}{Color.ORANGE}bold orange{Color.OFF}")
+        print(f"{BgColor.YELLOW}{Color.BLACK}highlighted{Color.OFF}")
+
+        ## jbcolor() with auto-reset -- named colors or RGB tuples
+        print(jbcolor("Error", fg="red", bold=True))
+        print(jbcolor("Custom", fg=(128, 0, 255), bg=(0, 0, 0)))
+        print(jbcolor("Warning", fg="black", bg="yellow"))
+
+        ## Concatenation works naturally
+        msg = "Result: " + jbcolor("PASS", fg="green", bold=True) + " - done"
+
+        ## Gradient -- smooth fade from one color to another
+        print(gradient("Hello World", "red", "blue"))
+        print(gradient("Smooth", (255, 0, 0), (0, 0, 255), bold=True))
+
+        ## Rainbow -- full spectrum across characters
+        print(rainbow("Rainbow Text!"))
+
+        ## Fade -- color to color and back (bounce effect)
+        print(fade("Breathing effect", "red", "blue"))
+
+        ## Cycle -- hard switch through a list of colors per character
+        print(cycle("Alternating!", ["red", "blue", "green"]))
+        print(cycle("Flag", [(255, 0, 0), (255, 255, 255), (0, 0, 255)]))
+
+        ## Pulse -- animated in-place color transition
+        pulse("ALERT", "red", "yellow", cycles=5)
+        pulse("Loading...", "purple", "teal", cycles=0)  ## Infinite (Ctrl+C to stop)
+```
+
+---
+
+**(Deprecated)** Python 3.8 or earlier: `from jblib import hilight`
+
+**(Deprecated)** Python 3.9 or later: `from jblib import hilightV2`
+
+```
+    DEPRECATED: Use Color, BgColor, and jbcolor() instead.
+
     class hilight(string).color(highlight=True, bold=True)
 
     EXAMPLE:
