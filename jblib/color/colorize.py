@@ -363,7 +363,7 @@ def pulse(text, start, end, cycles=3, speed=0.05, steps=20, bold=False):
 
 
 def border(content, title=None, color=None, title_color=None, padding=1,
-           vpadding=0, width=None, rounded=False):
+           vpadding=0, width=None, rounded=False, fullwidth=False, margin=1):
     """Wrap content in a colorized Unicode border box.
 
     Args:
@@ -375,6 +375,8 @@ def border(content, title=None, color=None, title_color=None, padding=1,
         vpadding: Vertical padding -- empty lines inside top/bottom (default 0).
         width: Total box width. Auto-sized to fit content if not specified.
         rounded: Use rounded corners (default False).
+        fullwidth: Expand box to fill the terminal width (default False).
+        margin: Outer margin on each side when fullwidth is True (default 1).
 
     Returns:
         The bordered string ready to print.
@@ -382,7 +384,16 @@ def border(content, title=None, color=None, title_color=None, padding=1,
     Example:
         print(border("Hello World", title="Greeting", color="blue"))
         print(border("Spacious", title="Info", color="teal", rounded=True, vpadding=1))
+        print(border("Wide", color="green", fullwidth=True, margin=2))
     """
+    import os
+
+    if fullwidth:
+        try:
+            term_width = os.get_terminal_size().columns
+        except OSError:
+            term_width = 80
+        width = term_width - margin * 2
     # Corner characters: sharp ┌┐└┘ vs rounded ╭╮╰╯
     if rounded:
         tl, tr, bl, br = '\u256d', '\u256e', '\u2570', '\u256f'
@@ -434,4 +445,9 @@ def border(content, title=None, color=None, title_color=None, padding=1,
     # Bottom border
     bot = _colorize(bl + h * inner + br, color)
 
-    return '\n'.join([top] + mid + [bot])
+    result = '\n'.join([top] + mid + [bot])
+
+    if fullwidth:
+        result = '\n'.join(' ' * margin + line for line in result.split('\n'))
+
+    return result

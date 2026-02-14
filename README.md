@@ -46,7 +46,7 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
         cycle(text, colors, bold=False)
         pulse(text, start, end, cycles=3, speed=0.05, steps=20, bold=False)
         border(content, title=None, color=None, title_color=None, padding=1,
-               vpadding=0, width=None, rounded=False)
+               vpadding=0, width=None, rounded=False, fullwidth=False, margin=1)
 
     AVAILABLE COLORS:
         Standard:  BLACK, RED, GREEN, YELLOW, BLUE, PURPLE, TEAL, WHITE
@@ -94,6 +94,8 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
         print(border("Spacious", title="Info", color="teal", rounded=True, vpadding=1))
         print(border("Line 1\nLine 2\nLine 3", title="Status", color="green", rounded=True))
         print(border(jbcolor("PASS", fg="green", bold=True), title="Result", color="green"))
+        print(border("Full width box", title="Wide", color="blue", fullwidth=True))
+        print(border("Custom margin", title="Indented", color="green", fullwidth=True, margin=4))
 ```
 
 ---
