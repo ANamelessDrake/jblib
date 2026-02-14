@@ -6,7 +6,7 @@ a colored() function for complex styling with auto-reset, and multicolor
 functions (gradient, rainbow, fade, cycle) for per-character color effects.
 """
 
-__all__ = ['Color', 'BgColor', 'jbcolor', 'gradient', 'rainbow', 'fade', 'cycle', 'pulse']
+__all__ = ['Color', 'BgColor', 'jbcolor', 'gradient', 'rainbow', 'fade', 'cycle', 'pulse', 'border']
 
 _ESC = '\x1b['
 _RESET = '\x1b[0m'
@@ -90,6 +90,28 @@ for _name, (_fg, _bg) in _COLORS.items():
 
 for _name, _code in _ATTRIBUTES.items():
     setattr(Color, _name.upper(), f'{_ESC}{_code}m')
+
+
+import re
+_ANSI_RE = re.compile(r'\x1b\[[0-9;]*m')
+
+
+def _visible_len(text):
+    """Get the visible length of text, ignoring ANSI escape codes."""
+    return len(_ANSI_RE.sub('', text))
+
+
+def _colorize(text, color):
+    """Apply a foreground color to text. Returns text unchanged if color is None."""
+    if color is None:
+        return text
+    if isinstance(color, (tuple, list)):
+        r, g, b = color[:3]
+        return f'{_ESC}38;2;{r};{g};{b}m{text}{_RESET}'
+    name = color.lower().replace(' ', '_')
+    if name in _COLORS:
+        return f'{_ESC}{_COLORS[name][0]}m{text}{_RESET}'
+    raise ValueError(f"Unknown color: {color}")
 
 
 def _resolve_rgb(color):
@@ -338,3 +360,70 @@ def pulse(text, start, end, cycles=3, speed=0.05, steps=20, bold=False):
         r, g, b = c1
         sys.stdout.write(f'\r{_ESC}{prefix}38;2;{r};{g};{b}m{text}{_RESET}\n')
         sys.stdout.flush()
+
+
+def border(content, title=None, color=None, title_color=None, padding=1,
+           width=None, rounded=False):
+    """Wrap content in a colorized Unicode border box.
+
+    Args:
+        content: String content (can be multi-line). May contain ANSI colors.
+        title: Optional title displayed in the top border.
+        color: Border color -- name string or (r, g, b) tuple.
+        title_color: Title color -- defaults to color if not specified.
+        padding: Horizontal padding inside the box (default 1).
+        width: Total box width. Auto-sized to fit content if not specified.
+        rounded: Use rounded corners (default False).
+
+    Returns:
+        The bordered string ready to print.
+
+    Example:
+        print(border("Hello World", title="Greeting", color="blue"))
+        print(border("Status: OK", title="Info", color="teal", rounded=True))
+    """
+    # Corner characters: sharp ┌┐└┘ vs rounded ╭╮╰╯
+    if rounded:
+        tl, tr, bl, br = '\u256d', '\u256e', '\u2570', '\u256f'
+    else:
+        tl, tr, bl, br = '\u250c', '\u2510', '\u2514', '\u2518'
+    h, v = '\u2500', '\u2502'
+
+    lines = content.split('\n')
+
+    # Calculate inner width based on content
+    max_content_width = max(_visible_len(line) for line in lines) if lines else 0
+    inner = max_content_width + padding * 2
+
+    # Ensure room for title if provided
+    if title:
+        inner = max(inner, len(title) + 4)
+
+    # Override with explicit width (minus 2 for border chars)
+    if width is not None:
+        inner = max(inner, width - 2)
+
+    t_color = title_color if title_color is not None else color
+
+    # Top border
+    if title:
+        title_str = _colorize(f' {title} ', t_color)
+        remaining = inner - 1 - len(title) - 2
+        top = _colorize(tl + h, color) + title_str + _colorize(h * remaining + tr, color)
+    else:
+        top = _colorize(tl + h * inner + tr, color)
+
+    # Content lines
+    mid = []
+    for line in lines:
+        fill = inner - padding - _visible_len(line)
+        mid.append(
+            _colorize(v, color)
+            + ' ' * padding + line + ' ' * fill
+            + _colorize(v, color)
+        )
+
+    # Bottom border
+    bot = _colorize(bl + h * inner + br, color)
+
+    return '\n'.join([top] + mid + [bot])
