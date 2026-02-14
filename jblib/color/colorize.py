@@ -363,7 +363,7 @@ def pulse(text, start, end, cycles=3, speed=0.05, steps=20, bold=False):
 
 
 def border(content, title=None, color=None, title_color=None, padding=1,
-           width=None, rounded=False):
+           vpadding=0, width=None, rounded=False):
     """Wrap content in a colorized Unicode border box.
 
     Args:
@@ -372,6 +372,7 @@ def border(content, title=None, color=None, title_color=None, padding=1,
         color: Border color -- name string or (r, g, b) tuple.
         title_color: Title color -- defaults to color if not specified.
         padding: Horizontal padding inside the box (default 1).
+        vpadding: Vertical padding -- empty lines inside top/bottom (default 0).
         width: Total box width. Auto-sized to fit content if not specified.
         rounded: Use rounded corners (default False).
 
@@ -380,7 +381,7 @@ def border(content, title=None, color=None, title_color=None, padding=1,
 
     Example:
         print(border("Hello World", title="Greeting", color="blue"))
-        print(border("Status: OK", title="Info", color="teal", rounded=True))
+        print(border("Spacious", title="Info", color="teal", rounded=True, vpadding=1))
     """
     # Corner characters: sharp ┌┐└┘ vs rounded ╭╮╰╯
     if rounded:
@@ -413,8 +414,13 @@ def border(content, title=None, color=None, title_color=None, padding=1,
     else:
         top = _colorize(tl + h * inner + tr, color)
 
+    # Empty line for vertical padding
+    blank = _colorize(v, color) + ' ' * inner + _colorize(v, color)
+
     # Content lines
     mid = []
+    for _ in range(vpadding):
+        mid.append(blank)
     for line in lines:
         fill = inner - padding - _visible_len(line)
         mid.append(
@@ -422,6 +428,8 @@ def border(content, title=None, color=None, title_color=None, padding=1,
             + ' ' * padding + line + ' ' * fill
             + _colorize(v, color)
         )
+    for _ in range(vpadding):
+        mid.append(blank)
 
     # Bottom border
     bot = _colorize(bl + h * inner + br, color)

@@ -28,7 +28,7 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
 
 ---
 
-`from jblib import Color, BgColor, jbcolor, gradient, rainbow, fade, cycle, pulse`
+`from jblib import Color, BgColor, jbcolor, gradient, rainbow, fade, cycle, pulse, border`
 
 ```
     Modern Terminal Color Utilities
@@ -45,6 +45,8 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
         fade(text, start, end, bold=False)
         cycle(text, colors, bold=False)
         pulse(text, start, end, cycles=3, speed=0.05, steps=20, bold=False)
+        border(content, title=None, color=None, title_color=None, padding=1,
+               vpadding=0, width=None, rounded=False)
 
     AVAILABLE COLORS:
         Standard:  BLACK, RED, GREEN, YELLOW, BLUE, PURPLE, TEAL, WHITE
@@ -86,6 +88,12 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
         ## Pulse -- animated in-place color transition
         pulse("ALERT", "red", "yellow", cycles=5)
         pulse("Loading...", "purple", "teal", cycles=0)  ## Infinite (Ctrl+C to stop)
+
+        ## Border -- wrap content in a Unicode box
+        print(border("Hello World", title="Greeting", color="blue"))
+        print(border("Spacious", title="Info", color="teal", rounded=True, vpadding=1))
+        print(border("Line 1\nLine 2\nLine 3", title="Status", color="green", rounded=True))
+        print(border(jbcolor("PASS", fg="green", bold=True), title="Result", color="green"))
 ```
 
 ---
