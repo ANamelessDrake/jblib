@@ -276,7 +276,7 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
 
     CLASS:
         TransferProgress(total, label="Download", color=True, stream=sys.stderr,
-                         quiet=False, unit="bytes")
+                         quiet=False, unit="bytes", colors=("red", "green"))
 
     METHODS:
         progress(n)        -- add n (boto3 transfer Callback compatible)
@@ -287,17 +287,25 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
     DESCRIPTION:
         A thread safe progress line for downloads, uploads, hashing and unpacking.
         On a terminal it redraws one line in place (about 10 times a second, 100%
-        is always drawn) with a red to green bar, percent, amount done, a speed
+        is always drawn) with a gradient bar (red to green by default), percent, amount done, a speed
         smoothed over the last few seconds and an ETA, sized to the terminal width.
         When the stream is not a terminal, or NO_COLOR is set, it prints a plain
         line every 10% with no escape codes and no carriage returns.
         quiet=True prints nothing. unit="items" shows counts instead of bytes.
         Also works as a context manager (finish() is called on a clean exit).
+        colors sets the bar gradient: a (start, end) pair, or three or more stops
+        spaced evenly. Each stop is a color name or an (r, g, b) tuple, as jbcolor
+        accepts; an unknown name raises ValueError.
 
     EXAMPLE:
         ## boto3 calls the callback from several threads; that is safe
         with TransferProgress(size, label="Download") as progress:
             s3.download_file(bucket, key, path, Callback=progress)
+
+        ## Custom gradients: names, RGB tuples, or three or more stops
+        TransferProgress(size, colors=("blue", "teal"))
+        TransferProgress(size, colors=((255, 80, 0), (0, 160, 255)))
+        TransferProgress(size, colors=("red", "yellow", "green"))
 
         ## Counting items
         with TransferProgress(len(members), label="Unpack", unit="items") as progress:

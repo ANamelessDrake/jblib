@@ -15,7 +15,7 @@ import threading
 import time
 from collections import deque
 
-from ..color.colorize import _ESC, _RESET, _RGB, _interpolate
+from ..color.colorize import _ESC, _RESET, _interpolate, _resolve_rgb
 
 __all__ = ['TransferProgress', 'supports_color', 'format_bytes', 'format_duration']
 
@@ -97,7 +97,11 @@ class TransferProgress:
     Args:
         total: Expected final value (bytes, or items when unit="items").
         label: Text shown at the start of the line.
-        color: Use a red to green gradient bar when the stream supports color.
+        color: Use a gradient bar when the stream supports color.
+        colors: Gradient stops for the filled bar: a (start, end) pair, or three
+            or more stops spaced evenly (for example ("red", "yellow", "green")).
+            Each is a jblib color name or an (r, g, b) tuple, as jbcolor accepts.
+            Unknown names raise ValueError.
         stream: Output stream. Defaults to sys.stderr at construction time.
         quiet: Print nothing at all.
         unit: "bytes" (default) or "items".
@@ -117,9 +121,12 @@ class TransferProgress:
     BAR_MAX = 40
 
     def __init__(self, total, label="Download", color=True, stream=None,
-                 quiet=False, unit="bytes"):
+                 quiet=False, unit="bytes", colors=("red", "green")):
         if unit not in ('bytes', 'items'):
             raise ValueError(f'Unknown unit: {unit} (use "bytes" or "items")')
+        if isinstance(colors, str) or not colors:
+            raise ValueError('colors must be a sequence of color names or (r, g, b) tuples')
+        self.colors = [_resolve_rgb(c) for c in colors]
         self.total = max(0, int(total or 0))
         self.label = label
         self.unit = unit
@@ -262,6 +269,15 @@ class TransferProgress:
         text, visible = rendered
         return text + ' ' * max(0, self._width() - visible)
 
+    def _gradient_at(self, t):
+        """RGB color at position t (0..1) along the color stops."""
+        stops = self.colors
+        if len(stops) == 1:
+            return stops[0]
+        seg = max(0.0, min(1.0, t)) * (len(stops) - 1)
+        idx = min(int(seg), len(stops) - 2)
+        return _interpolate(stops[idx], stops[idx + 1], seg - idx)
+
     def _amounts(self):
         if self.unit == 'items':
             return f'{self.value} / {self.total} items'
@@ -302,10 +318,9 @@ class TransferProgress:
             return text, len(text)
         filled = int(round(bar_len * frac))
         if self.color:
-            start, end = _RGB['bright_red'], _RGB['bright_green']
             parts = []
             for i in range(filled):
-                r, g, b = _interpolate(start, end, i / max(bar_len - 1, 1))
+                r, g, b = self._gradient_at(i / max(bar_len - 1, 1))
                 parts.append(f'{_ESC}38;2;{r};{g};{b}m█')
             parts.append(f'{_ESC}90m' + '▬' * (bar_len - filled) + _RESET)
             bar = ''.join(parts)

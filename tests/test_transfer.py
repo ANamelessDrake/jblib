@@ -239,6 +239,61 @@ class TTYOutputTests(unittest.TestCase):
         self.assertLessEqual(len(line), 39)
 
 
+class ColorStopTests(unittest.TestCase):
+
+    def bar_colors(self, **kwargs):
+        with tty_env(), mock.patch.dict(os.environ, {'COLUMNS': '120'}):
+            out = FakeTTY()
+            p = TransferProgress(100, stream=out, **kwargs)
+            p.set(100)
+        codes = re.findall(r'\x1b\[38;2;(\d+);(\d+);(\d+)m\u2588', out.getvalue())
+        self.assertEqual(len(codes), TransferProgress.BAR_MAX)
+        return [tuple(map(int, c)) for c in codes]
+
+    def test_default_is_red_to_green(self):
+        codes = self.bar_colors()
+        self.assertEqual(codes[0], (205, 0, 0))
+        self.assertEqual(codes[-1], (0, 205, 0))
+
+    def test_names(self):
+        codes = self.bar_colors(colors=('blue', 'Bright White'))
+        self.assertEqual(codes[0], (0, 0, 205))
+        self.assertEqual(codes[-1], (255, 255, 255))
+
+    def test_tuples(self):
+        codes = self.bar_colors(colors=((10, 20, 30), (110, 120, 130)))
+        self.assertEqual(codes[0], (10, 20, 30))
+        self.assertEqual(codes[-1], (110, 120, 130))
+
+    def test_three_stops(self):
+        p = TransferProgress(1, stream=io.StringIO(), colors=('red', 'yellow', 'green'))
+        self.assertEqual(p._gradient_at(0.0), (205, 0, 0))
+        self.assertEqual(p._gradient_at(0.5), (205, 205, 0))
+        self.assertEqual(p._gradient_at(1.0), (0, 205, 0))
+        self.assertEqual(p._gradient_at(0.25), (205, 102, 0))
+        codes = self.bar_colors(colors=('red', 'yellow', 'green'))
+        self.assertEqual(codes[0], (205, 0, 0))
+        # Mid-bar sits near yellow: red and green channels both high.
+        r, g, b = codes[len(codes) // 2]
+        self.assertGreater(min(r, g), 190)
+        self.assertEqual(codes[-1], (0, 205, 0))
+
+    def test_unknown_name_raises(self):
+        with self.assertRaises(ValueError):
+            TransferProgress(10, colors=('red', 'chartreuse'))
+        with self.assertRaises(ValueError):
+            TransferProgress(10, colors='red')
+        with self.assertRaises(ValueError):
+            TransferProgress(10, colors=())
+
+    def test_colors_unused_without_tty(self):
+        out = io.StringIO()
+        p = TransferProgress(10, stream=out, colors=('blue', 'purple'))
+        p(10)
+        p.finish()
+        self.assertNotIn(ESC, out.getvalue())
+
+
 class ThreadSafetyTests(unittest.TestCase):
 
     def run_threads(self, stream):
