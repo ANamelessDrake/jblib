@@ -268,6 +268,76 @@ More of my projects can be found here: [http://justbard.com](http://justbard.com
 
 ---
 
+`from jblib import TransferProgress`
+
+```
+    Transfer Progress
+    10/09/2026
+
+    CLASS:
+        TransferProgress(total, label="Download", color=True, stream=sys.stderr,
+                         quiet=False, unit="bytes")
+
+    METHODS:
+        progress(n)        -- add n (boto3 transfer Callback compatible)
+        update(n)          -- add n
+        set(value)         -- set the current value
+        finish()           -- print the final line with average speed and elapsed time
+
+    DESCRIPTION:
+        A thread safe progress line for downloads, uploads, hashing and unpacking.
+        On a terminal it redraws one line in place (about 10 times a second, 100%
+        is always drawn) with a red to green bar, percent, amount done, a speed
+        smoothed over the last few seconds and an ETA, sized to the terminal width.
+        When the stream is not a terminal, or NO_COLOR is set, it prints a plain
+        line every 10% with no escape codes and no carriage returns.
+        quiet=True prints nothing. unit="items" shows counts instead of bytes.
+        Also works as a context manager (finish() is called on a clean exit).
+
+    EXAMPLE:
+        ## boto3 calls the callback from several threads; that is safe
+        with TransferProgress(size, label="Download") as progress:
+            s3.download_file(bucket, key, path, Callback=progress)
+
+        ## Counting items
+        with TransferProgress(len(members), label="Unpack", unit="items") as progress:
+            for member in members:
+                archive.extract(member, target)
+                progress(1)
+
+    Download ████████████████▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬  42%  575.1 / 1368.0 MB  48.2 MB/s  ETA 0:16
+    Download ████████████████████████████████████████ 100%  1368.0 / 1368.0 MB  avg 47.9 MB/s  in 0:28
+```
+
+`from jblib import supports_color`
+
+```
+    FUNCTIONS:
+        supports_color(stream=sys.stdout)
+
+    DESCRIPTION:
+        Returns False when the stream is not a TTY, when NO_COLOR is set to a
+        non-empty value, or when TERM=dumb. Otherwise True.
+
+    EXAMPLE:
+        label = jbcolor("PASS", fg="green") if supports_color() else "PASS"
+```
+
+`from jblib import format_bytes, format_duration`
+
+```
+    FUNCTIONS:
+        format_bytes(n)            -- binary units: "512 B", "1.5 KB", "575.1 MB", "1.3 GB"
+        format_duration(seconds)   -- "M:SS", or "H:MM:SS" from one hour up; "--:--" when unknown
+
+    EXAMPLE:
+        format_bytes(1536)         ## '1.5 KB'
+        format_duration(65)        ## '1:05'
+        format_duration(3725)      ## '1:02:05'
+```
+
+---
+
 `from jblib import StreamToLogger`
 
 ```
