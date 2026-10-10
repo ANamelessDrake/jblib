@@ -11,7 +11,7 @@ setuptools.setup(name='jblib',
                 author='Justin Bard',
                 author_email='JustinBard@gmail.com',
                 url='http://justbard.com',
-                packages=setuptools.find_packages(),
+                packages=setuptools.find_packages(exclude=['tests', 'tests.*']),
                 classifiers=[
                     "Programming Language :: Python :: 3",
                     "License :: OSI Approved :: MIT License",
